@@ -1,0 +1,59 @@
+syntax = "proto3";
+package payment;
+
+option go_package = ".;payment";
+
+// 支付类型枚举
+enum PayType {
+  WECHAT = 0;
+  ALIPAY = 1;
+  UNIONPAY = 2;
+}
+
+// 支付状态枚举
+enum PayStatus {
+  PENDING = 0;
+  SUCCESS = 1;
+  FAILED = 2;
+  REFUNDED = 3;
+  PROCESSING = 4;
+}
+
+// 支付请求
+message PayRequest {
+  string order_id = 1;
+  double amount = 2;
+  string currency = 3;
+  string subject = 4;
+  PayType pay_type = 5;
+  string notify_url = 6;
+  string return_url = 7;
+  string client_ip = 8;
+  string description = 9;
+}
+
+// 支付响应
+message PayResponse {
+  string pay_id = 1;
+  string order_id = 2;
+  PayStatus status = 3;
+  double amount = 4;
+  string pay_url = 5;
+  string code_url = 6;
+  string time_expire = 7;
+  string time_created = 8;
+}
+
+// 支付查询
+message PayQuery {
+  string pay_id = 1;
+  string order_id = 2;
+}
+
+// 退款请求
+message RefundRequest {
+  string pay_id = 1;
+  string order_id = 2;
+  double refund_amount = 3;
+  string refund_reason = 4;
+}
